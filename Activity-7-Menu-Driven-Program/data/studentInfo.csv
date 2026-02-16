@@ -1,4 +1,4 @@
-id,firstName,lastName,score,attempts,rank,date,credits
-202602,John Kevin,Balansag,0,0,0,0,100
-202603,Elizardo,Liaga,0,0,0,0,100
-202605,Erick,Intea,0,0,0,0,100
+id,firstName,lastName,dateCreated,status,score,attempts,rank,credits
+202601,Jaijai,Torillo,2026-02-16,Active,0,0,0,100
+202602,Jerome,Ponce,2026-02-16,Active,0,0,0,100
+202603,Marry Grace,Piattos,2026-02-16,Active,0,0,0,100
