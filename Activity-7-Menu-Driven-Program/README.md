@@ -53,26 +53,30 @@ MENU OPTIONS
 6. Let the user take a Quiz
 7. Exit the program
 
-   Entere your choice: 1
-   Enter your First Name: Donnie
-   Enter your last Name: Amodia
+Entere your choice: 1
+
+Enter your First Name: Donnie
+
+Enter your last Name: Amodia
 
 Thanks for registering, Donnie Amodia!
 
+Quiz Begin!
+
 ## Screenshots
 
-### Menu Options
+- Menu Options
 
 ![Output](../images/Activity-7.1.png)
 
-### Add Student Profile
+- Add Student Profile
 
 ![Output](../images/Activity-7.2.png)
 
-### Read or Display a student profile
+- Read or Display a student profile
 
 ![Output](../images/Activity-7.3.png)
 
-### Quiz
+- Quiz
 
 ![Output](../images/Activity-7.4.png)
