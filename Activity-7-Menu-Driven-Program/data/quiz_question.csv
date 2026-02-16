@@ -1,0 +1,21 @@
+ID,Question,OptionA,OptionB,OptionC,OptionD,CorrectAnswer,Points
+1,What is the capital of France?,London,Berlin,Paris,Madrid,C,10
+2,Which of the following is a valid C++ data type?,string,integer,char,All of the above,D,10
+3,What does OOP stand for?,Object-Oriented Programming,Object-Oriented Process,Operation-Oriented Program,None of the above,A,10
+4,Which symbol is used to denote a preprocessor directive in C++?,%,#,&,@,B,10
+5,What is the output of 5 + 3 * 2 in C++?,16,11,10,13,B,10
+6,Which loop is guaranteed to execute at least once?,for loop,while loop,do-while loop,None of the above,C,10
+7,What is the correct way to declare a constant in C++?,let x = 5;,constant x = 5;,const int x = 5;,int const x = 5;,C,10
+8,Which header file is needed for input/output operations?,<iostream>,<fstream>,<string>,<cmath>,A,10
+9,What is the size of an int in C++ (typically)?,2 bytes,4 bytes,8 bytes,Depends on compiler,D,10
+10,Which operator is used to access members of a structure?,.,->,::,&,A,10
+11,What is a constructor in C++?,A function that destroys an object,A function that initializes an object,A special variable,A data type,B,10
+12,Which of the following is not a loop in C++?,for,while,repeat,do-while,C,10
+13,What is the correct syntax for a function prototype?,void func();,void func{},function void func();,func void();,A,10
+14,What does the '&' operator represent when used in a parameter?,Address-of,Reference,Pointer,Logical AND,B,10
+15,Which keyword is used to create a new object?,new,create,object,malloc,A,10
+16,What is the output of: cout << (10 > 5) ?,1,true,10 > 5,0,A,10
+17,Which of the following is a valid array declaration?,int arr[];,int arr[5];,int arr[5] = {1,2,3};,All of the above,D,10
+18,What is a pointer in C++?,A variable that stores a value,A variable that stores an address,A reference to a variable,A data type,B,10
+19,Which loop is best when the number of iterations is known?,for loop,while loop,do-while loop,All are equal,A,10
+20,What does the 'endl' manipulator do?,Ends the program,Inserts a newline and flushes the stream,Ends a loop,None of the above,B,10
