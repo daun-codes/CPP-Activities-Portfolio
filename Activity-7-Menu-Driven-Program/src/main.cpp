@@ -1,224 +1,336 @@
-#include "studentList.h"  // Include necessary header files for various functionalities
-#include "utils.h"
-#include <iostream>      // For basic input/output operations
-#include <vector>        // For using vector container
-#include <limits>        // For numeric_limits (used in input validation)
-#include <list>          // For list container (though not used in current code)
-#include <fstream>       // For file handling (reading and writing to file)
-#include <string>        // For string class
-#include <sstream>       // For string streams (parsing strings)
-#include <iterator>
-    // For iterators (though not directly used)
+// Activity 7: Student Management System
+// This is the main file for the student management system
+// Features:
 
-// Using standard namespace to avoid prepending std:: to every standard function/object
+// 1. The program can allow user to register a new student profile.
+// 2. The user can also delete a student profile.
+// 3. The user must have to provide the assigned user ID to play the quiz
+// 4. The data that was saved in the file will be loaded in the program.
+// 5. The program will save the data when the user exits the program.
+// 6. The program will automatically save or make a copy of the data when the user wants to delete a student profile or register a new student profile.
+// 7. The programm will add points and attempts to the student profile when the user answers a question correctly.
+
+
+// Improvements:
+
+
+// 1. The UI can be improved by adding a loading bar or a progress bar to show the user the progress of the program.
+// 2. I will be adding a feature to the program where the user can view the rank of the students accurately based on their score.
+// 3. Validation for credits points can be added to the program. That will or not allow the user to play the quiz if they don't have enough credits points.
+
+
+
+
+
+
+#include "studentList.h"
+#include "quiz.h"
+#include "utils.h"
+#include <iostream>
+#include <vector>
+#include <limits>
+#include <fstream>
+#include <string>
+#include <sstream>
+#include <ctime>
+#include <iomanip>
+
 using namespace std;
 
 
 
-
-// Function prototypes (declared before main, defined after)
-void viewHighScore(StudentList& list);  // Display high scores
-void startQuiz(StudentList& list, StudentList& backupList);      // Start quiz process
-void viewMyProfile(StudentList& list);
-void deleteMyProfile(StudentList& list);
+// MAIN FUNCTIONS prototype 
+// This is the prototype of the main functions
 
 
+void startquiz(StudentList& list, StudentList& backupList, QuizManager& quizList);
+void registerStudent(StudentList& list, StudentList& backupList, QuizManager& quizList);
+void displayStudents(StudentList& list, StudentList& backupList);
+void deleteStudent(StudentList& list, StudentList& backupList, string userInput);
+void displayCurrentStudent(StudentList& list, StudentList& backuplist);
 
-
-// Main function - program entry point
 int main() {
-    // Create decorative borders for UI
-    string border(36, '=');  // String of 36 '=' characters
-    string space(6, ' ');    // String of 6 space characters
 
-    StudentList list;  // Create studentList object to manage students
+    StudentList list; // created an object of the StudentList class
+    StudentList backupList; // created an object of the StudentList class
+    QuizManager quizList; // created an object of the QuizManager class
 
-    StudentList backupList;
+    int choice;
 
-    list.loadFromFile("../data/archiveInfo.csv");
+
+    // Load the data from the files
+    quizList.loadQuestions("../data/quiz_question.csv");
     list.loadFromFile("../data/studentInfo.csv");
+    backupList.loadFromBackupFile("../data/backupInfo.csv");
 
-    // Display program header
-    cout << border << "\n";
-    cout << space << "C++ PROGRAMMING QUIZ" << "\n";
-    cout << border << "\n\n";
 
-    int choice;  // Variable to store user's menu choice
-    
-    // Main program loop - continues until user chooses to exit
-    do {
-        // Display menu options
+
+    do
+    {
+        clearScreen();
+
+        cout << "Welcome to Student Management System!" << "\n\n";
+
+        cout << "MENU OPTIONS\n\n";
+
         cout << "[1] Start Quiz" << "\n";
-        cout << "[2] View High Scores" << "\n";
-        cout << "[3] Instructions" << "\n";
-        cout << "[4] Credits" << "\n";
-        cout << "[5] View my Profile" << "\n";
-        cout << "[6] Delete my Profile" << "\n";
+        cout << "[2] View High Score" << "\n";
+        cout << "[3] View Instructions" << "\n";
+        cout << "[4] View Profile" << "\n";
         cout << "[0] Exit" << "\n";
         cout << "Enter your choice: ";
 
-        // Input validation loop - ensures user enters a number
-        while (!(cin >> choice)) {
-            cin.clear();  // Clear error flag on cin
-            // Discard invalid input up to newline
+        while (!(cin >> choice))
+        {
+            cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "Invalid input. Please enter a number: ";
+            cout << "Invalid Response. Enter a number: ";
+
         }
 
-        // Process user's choice using switch statement
-        switch (choice) {
-            case 1:  // Start quiz
-                startQuiz(list, backupList);
-                list.saveToFile("../data/studentInfo.csv");
-                break;
-            
-            case 2:  // View high scores
-                // IMPORTANT: Reload data from file before displaying
-                list.loadFromFile("../data/studentInfo.csv");
-                viewHighScore(list);
-                break;
-            
-            case 3:  // Show instructions
-                cout << "You have selected the option 3: Instructions";
-                cout << "\n\n";
-                break;
-            
-            case 4:  // Show credits
-                cout << "You have selected the option 4: Credits";
-                
-                cout << "\n\n";
-                break;
+        switch (choice)
+        {
+        case 1:
+            cout << "\n" << "You have selected 'Start the Quiz'" << "\n";
+            startquiz(list, backupList, quizList);
+            break;
+        case 2:
+            cout << "\n" << "You have selected 'View High Scores'" << "\n";
+            list.loadFromFile("../data/studentInfo.csv");
+            displayStudents(list, backupList);
+            break;
+        case 3:
+            cout << "\n" << "You have selected 'View Instructions'" << "\n";
+            break;
+        case 4:
+            cout << "\n" << "You have selected 'View Profile'" << "\n";
+            displayCurrentStudent(list, backupList);
+            break;
+        case 0:
+            cout << "\n" << "Thanks for playing! Goodbye!" << "\n";
+            break;
 
-            case 5:  // Show credits
-                cout << "You have selected the option 5: View My Profile";
-                viewMyProfile(list);
-                cout << "\n\n";
-                break;
-            case 6:  // Show credits
-                cout << "You have selected the option 6: Delete My Profile";
-                deleteMyProfile(list);
-                cout << "\n\n";
-                break;
-
-                
-            case 0:  // Exit program
-                cout << "You have selected to exit the program. Goodbye!" << "\n\n";
-                break;
-                
-            default:  // Invalid choice
-                cout << "\n[WARNING]: Invalid Input!\n";
-                break;
+        default:
+            cout << "\n" << "Invalid choice. Please try again.\n";
+            break;
         }
-        
-        // Pause before returning to menu (except when exiting)
+
         if (choice != 0) {
-            cout << "\nPress Enter to return to menu...";
-            cin.ignore();   // Clear newline from previous input
-            cin.get();      // Wait for Enter key
-        }
-    
-    } while (choice != 0);  // Continue loop until user chooses 0 (Exit)
 
-    cout << "Exiting the program...\n" << endl;
-    return 0;  // Successful program termination
+            cout << "\nPress Enter to return to Menu...";
+            cin.ignore();
+            cin.get();
+        }
+
+    } while (choice != 0);
+
+    return 0;
 }
 
-// Function to start the quiz process
-void startQuiz(StudentList& list, StudentList& backupList) 
+
+// CREATE A NEW STUDENT FUNCTIONS
+
+void registerStudent(StudentList& list, StudentList& backupList, QuizManager& quizList)
+{
+    string firstName, lastName;
+    string status = "Active";
+    int credits = 100;
+    int score = 0;
+    int rank = 0;
+    int attempt = 0;
+
+
+
+    // get user input with validation
+    bool valid = false; // This is for Input validation
+    cout << "\n\n" << "[REGISTRATION FORM!]" << "\n\n";
+    while (!valid)
+    {
+        cout << "Enter your First Name: ";
+        getline(cin, firstName);
+        cout << "Enter your last Name: ";
+        getline(cin, lastName);
+
+        if (firstName.empty() || lastName.empty())
+        {
+            cout << "\n" << "Name cannot be empty. Please try again.\n\n";
+        }
+        else
+        {
+            valid = true; // Success!
+        }
+    }
+
+    cout << "\n\n" << "Great! You have successfully created your account!\n\n";
+
+
+    string fname = toTitleCase(trim(firstName));
+    string lname = toTitleCase(trim(lastName));
+
+
+
+    list.addStudent(fname, lname, status, score, attempt, rank, credits);
+
+
+    string newID = list.getStudents().back().id;
+    string newDC = list.getStudents().back().dateCreated;
+    string newDD = "";
+
+
+    // add the new student to the backup list
+    
+    backupList.addbackupStudent(newID, fname, lname, newDC, newDD, status, score, attempt, rank, credits);
+
+}
+
+
+// INITIALIZE THE QUIZ FUNCTION 
+
+void startquiz(StudentList& list, StudentList& backupList, QuizManager& quizList)
 {
 
     clearScreen();
-    
+
+    char choice;
+
+
+    cout << "\n" << "Do you already have a Profile? (y)/(n): ";
+    cin >> choice;
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
+    string studentID;
+    if (choice == 'y' || choice == 'Y')
+    {
+        cout << "\n" << "Great! Just please enter your student ID: ";
+        cin >> studentID;
+        quizList.beginQuiz(list, backupList, quizList, studentID);
 
-    // Create a temporary student object with default values
-    Student newStudent("", "", "", 0, 0, 0, 0, 0);
+    }
+    else
+    {
+        cout << "\n" << "Please Register First..." << endl;
+        registerStudent(list, backupList, quizList);
+        list.saveToFile("../data/studentInfo.csv");
+        backupList.saveToBackup("../data/backupInfo.csv");
 
-    // Get student information
-    cout << "Please enter your First Name: ";
-    getline(cin, newStudent.firstName);  // Read entire line for first name
-
-    cout << "Please enter your Last Name: ";
-    getline(cin, newStudent.lastName);   // Read entire line for last name
-
-    // Initialize credits (quiz functionality not fully implemented)
-    cout << "You have been given 100 credits to take the quiz. Good Luck!";
-    newStudent.credits = 100;
-
-    
-    // Add student to the list with current data
-    // Note: score, attempts, rank, and date are currently 0
-    list.addStudent(newStudent.firstName, newStudent.lastName, 
-                   newStudent.score, newStudent.attempts, newStudent.rank, 
-                   newStudent.date, newStudent.credits);
-    
-    // Save updated list to file3
-
-    string currentDate = getTodayDate();
-
-    list.saveToBackUP(currentDate);
+    }
 
 
     return;
+
+
 }
 
-// Function to view high scores
-void viewHighScore(StudentList& list) 
+
+
+// DISPLAY ALL STUDENTS
+
+
+void displayStudents(StudentList& list, StudentList& backupList)
 {
     clearScreen();
-    
-    // Note: Data reloading happens in main() before calling this function
-    list.printList();  // Display all student records
-    return;
+
+    list.printList();
+
 }
 
-void viewMyProfile(StudentList& list) 
-{
 
+
+
+// DISPLAY THE CURRENT STUDENT PROFILE
+
+
+void displayCurrentStudent(StudentList& list, StudentList& backupList) // pass the list by reference
+{
     clearScreen();
 
+    cout << "\n-----------------------" << "\n";
+    cout << " STUDENT PROFILE LOCATOR " << "\n";
+    cout << "-------------------------";
+
+    cout << "\n";
 
     string userInput;
-    cin.ignore();
 
-    cout << "\n\nPlease enter the ID number: ";
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    cout << "\n\n" << "Enter the user ID or the Full Name of the student: ";
     getline(cin, userInput);
 
+    bool found = list.displayStudent(userInput);
 
-    userInput = trim(userInput);
-    list.printCurrentStudent(userInput);
+    string border(20, '-');
+    int choice;
 
-    return;
+    if (!found)
+    {
+        cout << "\n" << "Student not found: " << userInput << endl;
+    }
+
+    else
+    {
+        cout << "\n\n";
+        cout << border << "\t\t\t" << border << "---\n";
+        cout << "|" << "[1] Use this Profile" << "|" << "\t\t" << "\t" << "|[0] Delete this Profile" << "|" << "\n";
+        cout << border << "\t\t\t" << border << "---"
+            << endl;
+        cout << "\n\n" << "Enter your choice: ";
+        cin >> choice;
+
+        if (choice == 1)
+        {
+            cout << "\n\n" << "You are going to take the exam now!" << endl;
+
+        }
+        else if (choice == 0)
+        {
+            deleteStudent(list, backupList, userInput);
+        }
+        else
+        {
+            cout << "\n\n" << "[NOTE]: Invalid Input!" << endl;
+        }
+    }
+
 
 }
 
 
-void deleteMyProfile(StudentList& list)
+// DELETE A STUDENT PROFILE
+
+
+void deleteStudent(StudentList& list, StudentList& backupList, string userInput)
 {
-
-    StudentList archiveList;
-
-
     clearScreen();
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    char confirm;
+
+    cout << "\n-------------------" << "\n";
+    cout << "PROFILE TO DELETE " << "\n";
+    cout << "---------------------";
+
+    cout << "\n";
+
+    list.displayStudent(userInput);
+
+    cout << "Do you wish to proceed? (y)/(n): ";
+    cin >> confirm;
+
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    if (confirm == 'y' || confirm == 'Y')
+    {
+        list.deleteProfile(list, backupList, userInput);
+
+    }
+    else
+    {
+        cout << "\n\n" << "Deletion cancelled." << endl;
+        return;
+    }
 
 
-    cin.ignore();
-    string userInput;
-    
-    cout << "\n\nPlease enter your Full Name or Student ID: ";
-    getline(cin, userInput);
-
-    userInput = trim(userInput);
-
-
-    list.deleteProfile(userInput, archiveList);
-
-
-    cout << "\n\nYour profile has been successfully archived!\n\n";
-
-
-    return;
-
+    list.saveToFile("../data/studentInfo.csv");
 
 }

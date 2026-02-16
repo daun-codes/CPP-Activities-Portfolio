@@ -1,51 +1,30 @@
-#ifndef STUDENT_H  // Prevent multiple inclusion of this file
+#ifndef STUDENT_H
 #define STUDENT_H
-
 #include <string>
 
-
-using namespace std;
-
-
 struct Student {
-    string id;
-    string firstName;
-    string lastName; 
-    string dateCreated;
-    string dateDeleted;
-    string status;
+
+    std::string id;
+    std::string firstName;
+    std::string lastName;
+    std::string dateCreated;
+    std::string dateDeleted;
+    std::string status;
+
     int score;
     int attempts;
     int rank;
-    int date;
     int credits;
-    
+
+    Student(std::string id, std::string firstName, std::string lastName, std::string dateCreated, std::string status, int score, int attempts, int rank, int credits);
 
 
-    // Constructor declaration ONLY
+    Student(std::string id, std::string firstName, std::string lastName, std::string dateCreated, std::string dateDeleted, std::string status, int score, int attempts, int rank, int credits);
 
-    Student(string id, string fn, string ln, int scr, int attmpt, int r, int d, int crdts);
-
-    Student(string id, string dateCreated, string dateDeleted, string status);
 
     void displayInfo() const;
-    string getFullName() const;
 
 };
 
-string getTodayDate();
 
-struct Date {
-    int month;
-    int day;
-    int year;
-};
-
-struct Time {
-    int hours;
-    int minutes;
-    int seconds;
-};
-
-
-#endif 
+#endif
