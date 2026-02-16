@@ -96,6 +96,7 @@ void QuizManager::beginQuiz(StudentList& list, StudentList& backupList, QuizMana
         if (student.id == studentID)
         {
             currentStudent = &student;
+            cout << "\n" << "Welcome " << student.firstName << "!" << endl;
             break;
         }
     }
@@ -120,9 +121,9 @@ void QuizManager::beginQuiz(StudentList& list, StudentList& backupList, QuizMana
     int totalScore = 0;
     int totalPossible = 0;
 
-
-    cout << "\n" << "QUIZ STARTED!" << "\n";
-    cout << string(35, '-') << endl;
+    cout << "\n" << string(25, '-') << "\n";
+    cout << "QUIZ STARTED!" << "\n";
+    cout << string(25, '-') << endl;
 
 
     for (const auto& q : questions)
