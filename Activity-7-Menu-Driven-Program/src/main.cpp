@@ -1,5 +1,7 @@
 // Activity 7: Student Management System
-// This is the main file for the student management system
+// This is the main file for the student management system where the user can register a new student profile, delete a student profile, start a quiz, view high score, view instructions, view profile and exit the program.
+
+
 // Features:
 
 // 1. The program can allow user to register a new student profile.
@@ -17,6 +19,8 @@
 // 1. The UI can be improved by adding a loading bar or a progress bar to show the user the progress of the program.
 // 2. I will be adding a feature to the program where the user can view the rank of the students accurately based on their score.
 // 3. Validation for credits points can be added to the program. That will or not allow the user to play the quiz if they don't have enough credits points.
+// 4. I will add more features to the menu of this program especially the option to view the instructions of the program.
+// 5. I will create a table for the students to see the rank of the students accurately based on their score.
 
 
 
@@ -101,6 +105,7 @@ int main() {
             break;
         case 3:
             cout << "\n" << "You have selected 'View Instructions'" << "\n";
+            cout << "\n" << "This feature is still under development. Thanks for your patience!" << "\n\n";
             break;
         case 4:
             cout << "\n" << "You have selected 'View Profile'" << "\n";
@@ -178,7 +183,7 @@ void registerStudent(StudentList& list, StudentList& backupList, QuizManager& qu
 
 
     // add the new student to the backup list
-    
+
     backupList.addbackupStudent(newID, fname, lname, newDC, newDD, status, score, attempt, rank, credits);
 
 }
