@@ -64,7 +64,7 @@ vector<Student>& StudentList::getBackupStudents() {
 
 
 /*--------------------
-    CREATE FUNCTIONS 
+    CREATE FUNCTIONS
 ----------------------*/
 
 
@@ -288,7 +288,7 @@ void StudentList::loadFromBackupFile(const string& filename)
         }
         else
         {
-        
+
             cout << "\n\n" << "[WARNING]: Invalid CSV format in line: " << line << endl;
             errorCount++;
         }
@@ -514,7 +514,7 @@ void StudentList::deleteProfile(StudentList& list, StudentList& backupList, cons
 
             backupList.saveToBackup("../data/backupInfo.csv");
 
-    
+
             // delete the student
             it = list.Students.erase(it);
 
