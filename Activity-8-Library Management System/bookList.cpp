@@ -109,16 +109,16 @@ void BookList::printList()
 
     for (const auto& b : Books)
     {
-        cout << "ID\t\t\t\t: " << b.bookID << endl;
-        cout << "Book Title\t\t\t: " << b.bookTitle << endl;
-        cout << "Author\t\t\t\t: " << b.author << endl;
-        cout << "ISBN\t\t\t\t: " << b.ISBN << endl;
-        cout << "Category\t\t\t: " << b.category << endl;
-        cout << "Publisher\t\t\t: " << b.publisher << endl;
+        cout << "ID\t\t\t: " << b.bookID << endl;
+        cout << "Book Title\t\t: " << b.bookTitle << endl;
+        cout << "Author\t\t\t: " << b.author << endl;
+        cout << "ISBN\t\t\t: " << b.ISBN << endl;
+        cout << "Category\t\t: " << b.category << endl;
+        cout << "Publisher\t\t: " << b.publisher << endl;
         cout << "Year Published\t\t: " << b.yearPublished << endl;
         cout << "Status\t\t\t: " << b.status << endl;
-        cout << "Total Copies\t\t:\t\t " << b.totalCopies << endl;
-        cout << "Available Copies\t\t: " << b.availCopies << endl;
+        cout << "Total Copies\t\t: " << b.totalCopies << endl;
+        cout << "Available Copies\t: " << b.availCopies << endl;
         cout << "----------------------------------" << endl;
     }
 }

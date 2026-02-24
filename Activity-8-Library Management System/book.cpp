@@ -27,7 +27,7 @@ Book::Book(std::string bookID, std::string bookTitle, std::string author,
     std::string yearPublished, std::string status,
     int totalCopies, int availCopies)
     : Book(bookID, bookTitle, author, ISBN, category, publisher,
-        yearPublished, status, totalCopies, availCopies, 0) // ✅ borrowedCopies = 0
+        yearPublished, status, totalCopies, availCopies, 0) //
 {
 }
 
