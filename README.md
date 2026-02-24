@@ -10,7 +10,7 @@ Below are the project and activity folders that I have created so far. Click on 
 
 ### Simple Programs and Activities
 
-- [Activity 1 : Print Hello World](./Activity-1-Print-Hello-World/README.md)
+- [Activity 1 : Print Hello World](./Activity-1-Print-hello-world/README.md)
 - [Activity 2 : Addition Calculator](./Activity-2-Addition-Calculator/README.md)
 - [Activity 3 : Odd or Even Checker](./CPP-Activities-Portfolio/Activity-3-Odd-Even-Checker/README.md)
 - [Activity 4 : Largest of 3 Numbers](./CPP-Activities-Portfolio/Activity-4-Largest-of-3-Numbers/README.md)
