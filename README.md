@@ -12,15 +12,15 @@ Below are the project and activity folders that I have created so far. Click on 
 
 - [Activity 1 : Print Hello World](./Activity-1-Print-hello-world/README.md)
 - [Activity 2 : Addition Calculator](./Activity-2-Addition-Calculator/README.md)
-- [Activity 3 : Odd or Even Checker](./CPP-Activities-Portfolio/Activity-3-Odd-Even-Checker/README.md)
-- [Activity 4 : Largest of 3 Numbers](./CPP-Activities-Portfolio/Activity-4-Largest-of-3-Numbers/README.md)
-- [Activity 5 : Print 1 to N](./CPP-Activities-Portfolio/Activity-5-Print-1-to-N/README.md)
-- [Activity 6 : Factorial Calculator](./CPP-Activities-Portfolio/Activity-6-Factorial-Calculator/README.md)
+- [Activity 3 : Odd or Even Checker](./Activity-3-Odd-Even-Checker/README.md)
+- [Activity 4 : Largest of 3 Numbers](./Activity-4-Largest-of-3-Numbers/README.md)
+- [Activity 5 : Print 1 to N](./Activity-5-Print-1-to-N/README.md)
+- [Activity 6 : Factorial Calculator](./Activity-6-Factorial-Calculator/README.md)
 
 ### Menu-Driven Programs
 
-- [Activity 7 : Menu-Driven-Program (Student Management System)](./CPP-Activities-Portfolio/Activity-7-Menu-Driven-Program/README.md)
-- [Activity 8 : Menu-Driven-Program (Library Management System)](./CPP-Activities-Portfolio/Activity-8-Library-Management-System/README.md)
+- [Activity 7 : Menu-Driven-Program (Student Management System)](./Activity-7-Menu-Driven-Program/README.md)
+- [Activity 8 : Menu-Driven-Program (Library Management System)](./Activity-8-Library-Management-System/README.md)
 
 ## Overall Progress
 
@@ -29,12 +29,12 @@ C++: C++: 🟩⬜⬜⬜⬜ 20%
 ## Latest Updates
 
 - **Feb 24, 2026**: Added README file for this Repository for better organization and visibility.
-- **Feb 24, 2026**: Added [Activity 8 : Menu-Driven-Program (Library Management System)](./CPP-Activities-Portfolio/Activity-7-Library-Management-System/README.md)
+- **Feb 24, 2026**: Added [Activity 8 : Menu-Driven-Program (Library Management System)](./Activity-8-Library-Management-System/README.md)
 
 ## Goals for This Week
 
-- Finish Adding save function and load function to the [Activity 8 : Menu-Driven-Program (Library Management System)](./CPP-Activities-Portfolio/Activity-7-Library-Management-System/README.md)
-- Finish Improving the display function of the [Activity 7 : Menu-Driven-Program (Student Management System)](./CPP-Activities-Portfolio/Activity-7-Menu-Driven-Program/README.md).
+- Finish Adding save function and load function to the [Activity 8 : Menu-Driven-Program (Library Management System)](./Activity-8-Library-Management-System/README.md)
+- Finish Improving the display function of the [Activity 7 : Menu-Driven-Program (Student Management System)](./Activity-7-Menu-Driven-Program/README.md).
 
 ## Connect with Me
 
