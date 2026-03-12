@@ -20,12 +20,12 @@ struct Book {
     Book(std::string bookID, std::string bookTitle, std::string author,
         std::string ISBN, std::string category, std::string publisher,
         std::string yearPublished, std::string status,
-        int totalCopies, int availCopies, int borrowedCopies); // ✅
+        int totalCopies, int availCopies, int borrowedCopies);
 
     Book(std::string bookID, std::string bookTitle, std::string author,
         std::string ISBN, std::string category, std::string publisher,
         std::string yearPublished, std::string status,
-        int totalCopies, int availCopies); // ✅ delegating
+        int totalCopies, int availCopies);
 };
 
 #endif

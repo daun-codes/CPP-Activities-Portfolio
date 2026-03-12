@@ -33,6 +33,12 @@ public:
     void printList();
 
 
+    // Save Function
+
+    void LoadFromFile(const std::string& filename);
+    void saveToFile(const std::string& filename);
+
+
 
 
 

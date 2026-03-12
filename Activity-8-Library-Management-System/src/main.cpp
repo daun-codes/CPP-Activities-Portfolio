@@ -39,7 +39,11 @@ void displayAllBooks(BookList& list);
 int main() {
 
 
+
     BookList list;
+
+
+    list.LoadFromFile("../data/bookInfo.csv");
 
     int choice;
 
@@ -82,6 +86,7 @@ int main() {
             break;
         case 4:
             cout << "\n\n" << "You choose to View all Books" << "\n";
+            list.LoadFromFile("../data/bookInfo.csv");
             displayAllBooks(list);
             break;
         case 5:
@@ -141,6 +146,9 @@ void addNewBook(BookList& list)
 
 
     list.addBook(title, author, isbn, category, publisher, yearPub, totalCopy, availCopy);
+
+
+    list.saveToFile("../data/bookInfo.csv");
 
 
 
