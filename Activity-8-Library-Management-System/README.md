@@ -87,5 +87,5 @@ Coming soon...
 
 ## Latest Updates
 
-- **March 12, 2016**: - Finished adding save function and load function to the [Activity 8 : Menu-Driven-Program (Library Management System)](./Activity-8-Library-Management-System/README.md)
-- **Feb 24, 2026**: Added [Activity 8 : Menu-Driven-Program (Library Management System)](./Activity-8-Library-Management-System/README.md)
+- **March 12, 2016**: - Finished adding save function and load function to the [Activity 8 : Menu-Driven-Program (Library Management System)](README.md)
+- **Feb 24, 2026**: Added [Activity 8 : Menu-Driven-Program (Library Management System)](README.md)
