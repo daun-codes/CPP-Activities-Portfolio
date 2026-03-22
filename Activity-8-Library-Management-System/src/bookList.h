@@ -38,6 +38,9 @@ public:
     void LoadFromFile(const std::string& filename);
     void saveToFile(const std::string& filename);
 
+    // Display Books Function
+    void viewAllBooks();
+
 
 
 

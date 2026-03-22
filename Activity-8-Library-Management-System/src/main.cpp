@@ -36,13 +36,15 @@ void addNewBook(BookList& list);
 void displayAllBooks(BookList& list);
 
 
+
 int main() {
 
 
 
     BookList list;
+    BookList backupList;
 
-
+    list.LoadFromFile("../data/backupInfo.csv");
     list.LoadFromFile("../data/bookInfo.csv");
 
     int choice;
@@ -59,6 +61,7 @@ int main() {
         cout << "[3] Delete book" << "\n";
         cout << "[4] View all books" << "\n";
         cout << "[5] Search" << "\n";
+        cout << "[6] Borrow book" << "\n";
         cout << "[0] Exit" << "\n\n";
 
 
@@ -83,6 +86,7 @@ int main() {
             break;
         case 3:
             cout << "\n\n" << "You choose to Delete a Book" << "\n";
+            
             break;
         case 4:
             cout << "\n\n" << "You choose to View all Books" << "\n";
@@ -91,6 +95,10 @@ int main() {
             break;
         case 5:
             cout << "\n\n" << "You choose to Search a Book by: " << "\n";
+            break;
+
+        case 6:
+            cout << "\n\n" << "You choose to borrowed this book" << "\n";
             break;
         case 0:
             cout << "\n\n" << "You choose to Exit the program" << "\n";
@@ -164,7 +172,15 @@ void displayAllBooks(BookList& list)
 
     cout << "------------------------------------" << endl;
 
-    list.printList();
+    list.viewAllBooks();
 
 
 }
+
+
+
+
+
+
+
+    
