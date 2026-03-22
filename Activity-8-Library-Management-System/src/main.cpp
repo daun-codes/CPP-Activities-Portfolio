@@ -10,13 +10,15 @@
 
     1. Add new book.
     2. Display All book that was added.
+    3. Save the data to a file.
 
 
 
     Limitations:
 
-    1. The program is not going to save this data to a file.
-    2. The user will have to enter the data again if they want to add another book.
+    1. The user will not be able to delete the book that is no longer available
+    2. The user will not be able to borrow any book yet
+    3. The user will not be able to search for a specific book yet
 
 
 */
