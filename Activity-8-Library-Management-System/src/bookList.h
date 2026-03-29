@@ -32,6 +32,8 @@ public:
 
     void printList();
 
+    size_t size() const;
+
 
     // Save Function
 
@@ -39,10 +41,7 @@ public:
     void saveToFile(const std::string& filename);
 
     // Display Books Function
-    void viewAllBooks();
-
-
-
+    void viewAllBooks(const int page, const int pageSize);
 
 
 };

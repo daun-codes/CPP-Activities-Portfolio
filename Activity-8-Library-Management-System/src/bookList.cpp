@@ -14,6 +14,8 @@ using namespace std;
 
 BookList::BookList() : nextID(1) {}
 
+size_t BookList::size() const { return Books.size(); }
+
 
 int BookList::extractIDNumber(const string& fullID)
 {
@@ -125,9 +127,8 @@ void BookList::printList()
 
 
 
-void BookList::viewAllBooks()
+void BookList::viewAllBooks(const int page, const int pageSize)
 {
-
 
     string id = "ID";
     string title = "Title";
@@ -161,102 +162,95 @@ void BookList::viewAllBooks()
     int max_borrowCopy_len = 0;
 
 
-    if (!Books.empty())
-    {
 
-        // ID Length Finder
-
-        auto it = max_element(Books.begin(), Books.end(),
-            [](const Book& a, const Book& b) {
-                return a.bookID.size() < b.bookID.size();
-            });
-
-        max_id_len = it->bookID.size();
-
-        // Title Length Finder
-
-        it = max_element(Books.begin(), Books.end(),
-            [](const Book& a, const Book& b) {
-                return a.bookTitle.size() < b.bookTitle.size();
-            });
-
-        max_title_len = it->bookTitle.size();
-
-        // Author Length Finder
-
-        it = max_element(Books.begin(), Books.end(),
-            [](const Book& a, const Book& b) {
-                return a.author.size() < b.author.size();
-            });
-
-        max_author_len = it->author.size();
+    int start = page * pageSize;
+    int end = min(start + pageSize, (int)Books.size());
 
 
-        // Category Length Finder
-
-        it = max_element(Books.begin(), Books.end(),
-            [](const Book& a, const Book& b) {
-                return a.category.size() < b.category.size();
-            });
-
-        max_category_len = it->category.size();
+    if (start >= end || Books.empty()) return; // safety check
 
 
-        // Publisher Length Finder
+    // ID Length Finder
+    auto it = max_element(Books.begin() + start, Books.begin() + end,
+        [](const Book& a, const Book& b) {
+            return a.bookID.size() < b.bookID.size();
+        });
+    max_id_len = it->bookID.size();
 
 
-        it = max_element(Books.begin(), Books.end(),
-            [](const Book& a, const Book& b) {
-                return a.publisher.size() < b.publisher.size();
-            });
+    // Title Length Finder
 
-        max_publisher_len = it->publisher.size();
-
-
-        // Year Published Length Finder
+    it = max_element(Books.begin() + start, Books.begin() + end,
+        [](const Book& a, const Book& b) {
+            return a.bookTitle.size() < b.bookTitle.size();
+        });
+    max_title_len = it->bookTitle.size();
 
 
-        it = max_element(Books.begin(), Books.end(),
-            [](const Book& a, const Book& b) {
-                return a.yearPublished.size() < b.yearPublished.size();
-            });
+    // Author Length Finder
 
-        max_yearPub_len = it->yearPublished.size();
-
-
-        // Total Copies Length Finder
+    it = max_element(Books.begin() + start, Books.begin() + end,
+        [](const Book& a, const Book& b) {
+            return a.author.size() < b.author.size();
+        });
+    max_author_len = it->author.size();
 
 
-        it = max_element(Books.begin(), Books.end(),
-            [](const Book& a, const Book& b) {
-                return a.totalCopies < b.totalCopies;
-            });
+    // Category Length Finder
 
-        max_totalCopy_len = it->totalCopies;
-
-        // Available Copies Length Finder
-
-        it = max_element(Books.begin(), Books.end(),
-            [](const Book& a, const Book& b) {
-                return a.availCopies < b.availCopies;
-            });
-
-        max_availCopy_len = it->availCopies;
+    it = max_element(Books.begin() + start, Books.begin() + end,
+        [](const Book& a, const Book& b) {
+            return a.category.size() < b.category.size();
+        });
+    max_category_len = it->category.size();
 
 
-        // Borrowed Copies Length Finder
+    // Publisher Length Finder
+
+    it = max_element(Books.begin() + start, Books.begin() + end,
+        [](const Book& a, const Book& b) {
+            return a.publisher.size() < b.publisher.size();
+        });
+    max_publisher_len = it->publisher.size();
 
 
-        it = max_element(Books.begin(), Books.end(),
-            [](const Book& a, const Book& b) {
-                return a.borrowedCopies < b.borrowedCopies;
-            });
+    // Year Published Length Finder
 
-        max_borrowCopy_len = it->borrowedCopies;
+    it = max_element(Books.begin() + start, Books.begin() + end,
+        [](const Book& a, const Book& b) {
+            return a.yearPublished.size() < b.yearPublished.size();
+        });
+    max_yearPub_len = it->yearPublished.size();
 
 
-    }
+    // Total Copies Length Finder
 
+    it = max_element(Books.begin() + start, Books.begin() + end,
+        [](const Book& a, const Book& b) {
+            return a.totalCopies < b.totalCopies;
+        });
+    max_totalCopy_len = to_string(it->totalCopies).size();
+
+
+    // Available Copies Length Finder
+
+    it = max_element(Books.begin() + start, Books.begin() + end,
+        [](const Book& a, const Book& b) {
+            return a.availCopies < b.availCopies;
+        });
+    max_availCopy_len = to_string(it->availCopies).size();
+
+
+    // Borrowed Copies Length Finder
+
+    it = max_element(Books.begin() + start, Books.begin() + end,
+        [](const Book& a, const Book& b) {
+            return a.borrowedCopies < b.borrowedCopies;
+        });
+    max_borrowCopy_len = to_string(it->borrowedCopies).size();
+
+
+    // Finding the longest length
 
     int new_id_len = max(id_len, max_id_len);
     int new_title_len = max(title_len, max_title_len);
@@ -270,6 +264,8 @@ void BookList::viewAllBooks()
 
 
 
+
+    // Creating the border for the table
     string border = string(new_id_len + new_title_len + new_author_len + new_category_len + new_publisher_len + new_yearPub_len + new_totalCopy_len + new_availCopy_len + new_borrowCopy_len + 9, '=');
 
     string in_border = string(new_id_len + new_title_len + new_author_len + new_category_len + new_publisher_len + new_yearPub_len + new_totalCopy_len + new_availCopy_len + new_borrowCopy_len + 9, ' ');
@@ -345,91 +341,83 @@ void BookList::viewAllBooks()
     cout << "\n";
     cout << border << "\n";
 
-    int top_10 = 0;
+    int count = 0;
 
-
-    for (const auto& book : Books)
+    for (int i = start; i < end; i++)
     {
-        if (top_10 < 10)
+
         {
-            int num = book.bookID.size();
+            int num = Books[i].bookID.size();
 
             for (int space = 0; space < new_id_len - num; space++) cout << " ";
-            cout << book.bookID << "|";
+            cout << Books[i].bookID << "|";
 
 
-            num = book.bookTitle.size();
+            num = Books[i].bookTitle.size();
 
             for (int space = 0; space < new_title_len - num; space++) cout << " ";
-            cout << book.bookTitle << "|";
+            cout << Books[i].bookTitle << "|";
 
-            num = book.author.size();
+            num = Books[i].author.size();
 
             for (int space = 0; space < new_author_len - num; space++) cout << " ";
-            cout << book.author << "|";
+            cout << Books[i].author << "|";
 
 
-            num = book.category.size();
+            num = Books[i].category.size();
 
             for (int space = 0; space < new_category_len - num; space++) cout << " ";
-            cout << book.category << "|";
+            cout << Books[i].category << "|";
 
 
-            num = book.publisher.size();
+            num = Books[i].publisher.size();
 
             for (int space = 0; space < new_publisher_len - num; space++) cout << " ";
-            cout << book.publisher << "|";
+            cout << Books[i].publisher << "|";
 
 
-            num = book.yearPublished.size();
+            num = Books[i].yearPublished.size();
 
             for (int space = 0; space < new_yearPub_len - num; space++) cout << " ";
-            cout << book.yearPublished << "|";
+            cout << Books[i].yearPublished << "|";
 
 
 
-            num = to_string(book.totalCopies).size();
+            num = to_string(Books[i].totalCopies).size();
 
 
             for (int space = 0; space < new_totalCopy_len - num; space++) cout << " ";
-            cout << book.totalCopies << "|";
+            cout << Books[i].totalCopies << "|";
 
 
-            num = to_string(book.availCopies).size();
+            num = to_string(Books[i].availCopies).size();
 
 
             for (int space = 0; space < new_availCopy_len - num; space++) cout << " ";
-            cout << book.availCopies << "|";
+            cout << Books[i].availCopies << "|";
 
 
-            num = to_string(book.borrowedCopies).size();
+            num = to_string(Books[i].borrowedCopies).size();
 
 
             for (int space = 0; space < new_borrowCopy_len - num; space++) cout << " ";
-            cout << book.borrowedCopies << "|";
+            cout << Books[i].borrowedCopies << "|";
 
 
 
             cout << "\n" << in_border << "\n";
 
+            count++;
 
-            top_10++;
-
-        }
-
-        else
-        {
-            break;
         }
 
     }
+    int in_border_len = in_border.length();
+    string low_space = string((in_border_len - 30), ' ');
 
 
     cout << border << "\n";
-
-
-    cout << "\n\n" << "Showing " << top_10 << " of " << Books.size() << "\n\n";
-
+    cout << "\n\n" << "Showing " << count << " of " << Books.size() << " books" << low_space << "Page " << page + 1;
     cout << endl;
 }
 

@@ -27,6 +27,8 @@
 #include "bookList.h"
 #include <iostream> 
 #include <limits>
+#include <cmath>
+#include <unordered_set>
 using namespace std;
 
 
@@ -35,7 +37,7 @@ using namespace std;
 // PROTOTYPE FUNCTIONS FOR MAIN.
 
 void addNewBook(BookList& list);
-void displayAllBooks(BookList& list);
+void displayBooks(BookList& list);
 
 
 
@@ -62,8 +64,7 @@ int main() {
         cout << "[2] Edit book details" << "\n";
         cout << "[3] Delete book" << "\n";
         cout << "[4] View all books" << "\n";
-        cout << "[5] Search" << "\n";
-        cout << "[6] Borrow book" << "\n";
+        cout << "[5] Search a book" << "\n";
         cout << "[0] Exit" << "\n\n";
 
 
@@ -93,15 +94,12 @@ int main() {
         case 4:
             cout << "\n\n" << "You choose to View all Books" << "\n";
             list.LoadFromFile("../data/bookInfo.csv");
-            displayAllBooks(list);
+            displayBooks(list);
             break;
         case 5:
             cout << "\n\n" << "You choose to Search a Book by: " << "\n";
             break;
 
-        case 6:
-            cout << "\n\n" << "You choose to borrowed this book" << "\n";
-            break;
         case 0:
             cout << "\n\n" << "You choose to Exit the program" << "\n";
             cout << "Thank you and have a nice day!" << endl;
@@ -112,7 +110,7 @@ int main() {
         }
 
         if (choice != 0) {
-            cout << "Please enter to return to Menu...";
+            cout << "\n\n" << "Please enter to return to Menu...";
             cin.ignore();
             cin.get();
         }
@@ -165,23 +163,33 @@ void addNewBook(BookList& list)
 }
 
 
-void displayAllBooks(BookList& list)
+
+void displayBooks(BookList& list)
 {
-    cin.clear();
+    char choice;
 
-    cout << "\n\n" << "[List of All Books]";
-    cout << "\n\n";
+    int pageSize = 10;
+    int currentPage = 0;
 
-    cout << "------------------------------------" << endl;
+    do {
+        list.viewAllBooks(currentPage, pageSize);
 
-    list.viewAllBooks();
+        cout << "\n[N] Next | [P] Previous | [Q] Quit: ";
+        cin >> choice;
 
+        if (choice == 'N' || choice == 'n') {
+            if ((currentPage + 1) * pageSize < list.size()) {
+                currentPage++;
+            }
+        }
+        else if (choice == 'P' || choice == 'p') {
+            if (currentPage > 0) {
+                currentPage--;
+            }
+        }
 
+    } while (choice != 'Q' && choice != 'q');
 }
-
-
-
-
 
 
 
