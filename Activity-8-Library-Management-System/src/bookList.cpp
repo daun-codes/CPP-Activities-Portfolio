@@ -6,6 +6,7 @@
 #include <iomanip>
 #include <fstream>
 #include <algorithm>
+#include <limits>
 using namespace std;
 
 
@@ -127,7 +128,7 @@ void BookList::printList()
 
 
 
-void BookList::viewAllBooks(const int page, const int pageSize)
+void BookList::viewAllBooks(const int page, const int pageSize, char& choice, string option)
 {
 
     string id = "ID";
@@ -418,6 +419,34 @@ void BookList::viewAllBooks(const int page, const int pageSize)
 
     cout << border << "\n";
     cout << "\n\n" << "Showing " << count << " of " << Books.size() << " books" << low_space << "Page " << page + 1;
+
+
+    // View, Delete, and Search Options
+
+
+    if (option == "view")
+    {
+        cout << "\n[N] Next | [P] Previous | [Q] Quit: ";
+        cin.clear();
+        cin >> choice;
+    }
+    else if (option == "delete")
+    {
+        cout << "\n[D] Delete | [E] Edit | [Q] Quit: ";
+        cin.clear();
+        cin >> choice;
+    }
+    else if (option == "search")
+    {
+        return;
+    }
+
+    else
+    {
+        return;
+    }
+
+
     cout << endl;
 }
 

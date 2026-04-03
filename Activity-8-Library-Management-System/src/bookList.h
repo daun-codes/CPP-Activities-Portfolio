@@ -41,7 +41,7 @@ public:
     void saveToFile(const std::string& filename);
 
     // Display Books Function
-    void viewAllBooks(const int page, const int pageSize);
+    void viewAllBooks(const int page, const int pageSize, char& choice, std::string option);
 
 
 };

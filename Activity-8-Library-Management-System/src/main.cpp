@@ -89,7 +89,7 @@ int main() {
             break;
         case 3:
             cout << "\n\n" << "You choose to Delete a Book" << "\n";
-            
+
             break;
         case 4:
             cout << "\n\n" << "You choose to View all Books" << "\n";
@@ -167,15 +167,16 @@ void addNewBook(BookList& list)
 void displayBooks(BookList& list)
 {
     char choice;
+    string option = "view";
 
     int pageSize = 10;
     int currentPage = 0;
 
     do {
-        list.viewAllBooks(currentPage, pageSize);
 
-        cout << "\n[N] Next | [P] Previous | [Q] Quit: ";
-        cin >> choice;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+        list.viewAllBooks(currentPage, pageSize, choice, option);
 
         if (choice == 'N' || choice == 'n') {
             if ((currentPage + 1) * pageSize < list.size()) {
@@ -190,7 +191,3 @@ void displayBooks(BookList& list)
 
     } while (choice != 'Q' && choice != 'q');
 }
-
-
-
-    
