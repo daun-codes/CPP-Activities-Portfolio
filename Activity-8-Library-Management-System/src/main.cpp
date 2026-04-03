@@ -25,6 +25,7 @@
 
 #include "book.h"
 #include "bookList.h"
+#include "utils.h"
 #include <iostream> 
 #include <limits>
 #include <cmath>
@@ -38,7 +39,9 @@ using namespace std;
 
 void addNewBook(BookList& list);
 void displayBooks(BookList& list);
-
+void modifyBooks(BookList& list);
+void deleteBooks(BookList& list);
+void editBooks(BookList& list);
 
 
 int main() {
@@ -56,12 +59,12 @@ int main() {
 
     do {
 
-
+        clear();
         cout << "\n\n" << "Welcome to the Library Management System" << "\n\n";
         cout << "[MENU OPTIONS]" << "\n\n";
 
         cout << "[1] Add new book" << "\n";
-        cout << "[2] Edit book details" << "\n";
+        cout << "[2] Modify book" << "\n";
         cout << "[3] Delete book" << "\n";
         cout << "[4] View all books" << "\n";
         cout << "[5] Search a book" << "\n";
@@ -85,11 +88,12 @@ int main() {
             addNewBook(list);
             break;
         case 2:
-            cout << "\n\n" << "You choose to Edit a Book" << "\n";
+            cout << "\n\n" << "You choose to Modify a Book" << "\n";
+            modifyBooks(list);
             break;
         case 3:
             cout << "\n\n" << "You choose to Delete a Book" << "\n";
-
+            deleteBooks(list);
             break;
         case 4:
             cout << "\n\n" << "You choose to View all Books" << "\n";
@@ -166,6 +170,9 @@ void addNewBook(BookList& list)
 
 void displayBooks(BookList& list)
 {
+
+    clear();
+
     char choice;
     string option = "view";
 
@@ -190,4 +197,86 @@ void displayBooks(BookList& list)
         }
 
     } while (choice != 'Q' && choice != 'q');
+}
+
+
+void modifyBooks(BookList& list)
+{
+
+    clear();
+
+    char choice;
+    string option = "modify";
+    int pageSize = 10;
+    int currentPage = 0;
+    do
+    {
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        list.viewAllBooks(currentPage, pageSize, choice, option);
+
+
+        if (choice == 'D' || choice == 'd')
+        {
+
+            deleteBooks(list);
+            break;
+
+        }
+
+        if (choice == 'E' || choice == 'e')
+        {
+
+            editBooks(list);
+            break;
+
+        }
+
+
+    } while (choice != 'Q' && choice != 'q');
+
+}
+
+
+void deleteBooks(BookList& list)
+{
+    string userInput;
+    char choice;
+
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    cout << "Enter the Book ID or the Book Title: ";
+
+    getline(cin, userInput);
+
+
+    userInput = trim(userInput);
+
+    bool found = list.printBook(userInput);
+
+    if (found == true)
+    {
+        cout << "\n\n" << "Confirm Delete? [Y] [N]: ";
+        cin >> choice;
+        if (choice == 'Y' || choice == 'y')
+        {
+            cout << "\n\n" << "Deleted Successfully";
+        }
+
+        else
+        {
+            cout << "\n\n" << "Deletion canceled!";
+        }
+
+    }
+
+    else
+    {
+        return;
+    }
+}
+
+void editBooks(BookList& list)
+{
+
 }

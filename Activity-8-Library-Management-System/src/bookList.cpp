@@ -1,4 +1,5 @@
 #include "bookList.h"
+#include "utils.h"
 #include <iostream>
 #include <vector>
 #include <string>
@@ -128,6 +129,183 @@ void BookList::printList()
 
 
 
+
+void BookList::LoadFromFile(const string& filename)
+{
+    Books.clear();
+
+    ifstream file(filename);
+    if (!file.is_open())
+    {
+        cout << "\n" << "No Active Book file found" << filename << endl;
+        return;
+    }
+
+    cout << "/n" << "Loading book library from " << filename << "..." << endl;
+
+    string line;
+
+    int loadedCount = 0;
+    int errorCount = 0;
+
+    getline(file, line);
+
+    while (getline(file, line))
+    {
+        if (line.empty()) continue;
+
+        istringstream iss(line);
+        string bookID, bookTitle, author, ISBN, category, publisher, yearPublished, status, totalCopiesStr, availCopiesStr, borrowedCopiesStr;
+
+        if (!(getline(iss, bookID, ',') &&
+            getline(iss, bookTitle, ',') &&
+            getline(iss, author, ',') &&
+            getline(iss, ISBN, ',') &&
+            getline(iss, category, ',') &&
+            getline(iss, publisher, ',') &&
+            getline(iss, yearPublished, ',') &&
+            getline(iss, status, ',') &&
+            getline(iss, totalCopiesStr, ',') &&
+            getline(iss, availCopiesStr, ',') &&
+            getline(iss, borrowedCopiesStr, ',')))
+
+        {
+            cout << "[WARNING]: Invalid CSV format in line: " << line << endl;
+            errorCount++;
+            continue;
+        }
+
+        try
+        {
+            int totalCopies = stoi(totalCopiesStr);
+            int availCopies = stoi(availCopiesStr);
+            int borrowedCopies = stoi(borrowedCopiesStr);
+
+
+            Book newBook(bookID, bookTitle, author, ISBN, category, publisher, yearPublished, status, totalCopies, availCopies, borrowedCopies);
+
+            Books.push_back(newBook);
+
+            loadedCount++;
+        }
+        catch (const std::exception& e)
+        {
+            cout << "\n" << "[WARNING]: Invalid data in line: " << line << endl;
+
+            errorCount++;
+        }
+
+    }
+
+
+    file.close();
+
+    updateNextID();
+
+    cout << "\n" << "Loaded: " << loadedCount << " active Books." << endl;
+
+    if (errorCount > 0)
+    {
+        cout << "\n" << "Errors: " << errorCount << " lines skipped." << endl;
+    }
+
+}
+
+
+
+
+void BookList::saveToFile(const string& filename)
+{
+    ofstream file(filename);
+    if (!(file.is_open()))
+    {
+        cout << "\n" << "Failed to open file: " << filename << endl;
+        return;
+    }
+
+    file << "bookID, bookTitle, author, ISBN, category, publisher, yearPublished, status, totalCopies, availCopies, borrowedCopies\n";
+
+    for (auto& book : Books)
+    {
+        file << book.bookID << ","
+            << book.bookTitle << ","
+            << book.author << ","
+            << book.ISBN << ","
+            << book.category << ","
+            << book.publisher << ","
+            << book.yearPublished << ","
+            << book.status << ","
+            << book.totalCopies << ","
+            << book.availCopies << ","
+            << book.borrowedCopies << "\n";
+    }
+
+    file.close();
+
+    cout << "Data saved: " << Books.size() << " Active Books." << endl;
+
+}
+
+
+/*  ---------------------------
+    DISPLAY FUNCTIONS SECTION
+    ---------------------------*/
+
+
+bool BookList::printBook(string userInput)
+{
+
+    bool Notfound = true;
+
+    while (Notfound)
+    {
+        for (const auto& b : Books)
+        {
+
+            if (b.bookID == userInput || b.bookTitle == userInput)
+            {
+
+                clear();
+
+                cout << "\n\n" << "ACTIVE BOOK FOUND!" << "\n\n";
+                cout << "---------------------------------";
+                cout << "\n";
+                cout << "ID\t\t\t: " << b.bookID << endl;
+                cout << "Book Title\t\t: " << b.bookTitle << endl;
+                cout << "Author\t\t\t: " << b.author << endl;
+                cout << "ISBN\t\t\t: " << b.ISBN << endl;
+                cout << "Category\t\t: " << b.category << endl;
+                cout << "Publisher\t\t: " << b.publisher << endl;
+                cout << "Year Published\t\t: " << b.yearPublished << endl;
+                cout << "Status\t\t\t: " << b.status << endl;
+                cout << "Total Copies\t\t: " << b.totalCopies << endl;
+                cout << "Available Copies\t: " << b.availCopies << endl;
+                cout << "----------------------------------" << endl;
+                Notfound = false;
+
+                break;
+
+            }
+
+        }
+
+        break;
+    }
+
+
+    if (Notfound == true)
+    {
+        cout << "\n\n" << "Book not found!" << endl;
+
+    }
+
+    return !Notfound;
+
+}
+
+
+
+
 void BookList::viewAllBooks(const int page, const int pageSize, char& choice, string option)
 {
 
@@ -162,96 +340,16 @@ void BookList::viewAllBooks(const int page, const int pageSize, char& choice, st
     int max_availCopy_len = 0;
     int max_borrowCopy_len = 0;
 
-
-
     int start = page * pageSize;
     int end = min(start + pageSize, (int)Books.size());
 
 
     if (start >= end || Books.empty()) return; // safety check
 
-
-    // ID Length Finder
-    auto it = max_element(Books.begin() + start, Books.begin() + end,
-        [](const Book& a, const Book& b) {
-            return a.bookID.size() < b.bookID.size();
-        });
-    max_id_len = it->bookID.size();
+    findMaxLengthString(max_id_len, max_title_len, max_author_len, max_category_len, max_publisher_len, max_yearPub_len, max_totalCopy_len, max_availCopy_len, max_borrowCopy_len, start, end);
 
 
-    // Title Length Finder
-
-    it = max_element(Books.begin() + start, Books.begin() + end,
-        [](const Book& a, const Book& b) {
-            return a.bookTitle.size() < b.bookTitle.size();
-        });
-    max_title_len = it->bookTitle.size();
-
-
-    // Author Length Finder
-
-    it = max_element(Books.begin() + start, Books.begin() + end,
-        [](const Book& a, const Book& b) {
-            return a.author.size() < b.author.size();
-        });
-    max_author_len = it->author.size();
-
-
-    // Category Length Finder
-
-    it = max_element(Books.begin() + start, Books.begin() + end,
-        [](const Book& a, const Book& b) {
-            return a.category.size() < b.category.size();
-        });
-    max_category_len = it->category.size();
-
-
-    // Publisher Length Finder
-
-    it = max_element(Books.begin() + start, Books.begin() + end,
-        [](const Book& a, const Book& b) {
-            return a.publisher.size() < b.publisher.size();
-        });
-    max_publisher_len = it->publisher.size();
-
-
-    // Year Published Length Finder
-
-    it = max_element(Books.begin() + start, Books.begin() + end,
-        [](const Book& a, const Book& b) {
-            return a.yearPublished.size() < b.yearPublished.size();
-        });
-    max_yearPub_len = it->yearPublished.size();
-
-
-    // Total Copies Length Finder
-
-    it = max_element(Books.begin() + start, Books.begin() + end,
-        [](const Book& a, const Book& b) {
-            return a.totalCopies < b.totalCopies;
-        });
-    max_totalCopy_len = to_string(it->totalCopies).size();
-
-
-    // Available Copies Length Finder
-
-    it = max_element(Books.begin() + start, Books.begin() + end,
-        [](const Book& a, const Book& b) {
-            return a.availCopies < b.availCopies;
-        });
-    max_availCopy_len = to_string(it->availCopies).size();
-
-
-    // Borrowed Copies Length Finder
-
-    it = max_element(Books.begin() + start, Books.begin() + end,
-        [](const Book& a, const Book& b) {
-            return a.borrowedCopies < b.borrowedCopies;
-        });
-    max_borrowCopy_len = to_string(it->borrowedCopies).size();
-
-
-    // Finding the longest length
+    // Comparing the longest length from the list vs the title
 
     int new_id_len = max(id_len, max_id_len);
     int new_title_len = max(title_len, max_title_len);
@@ -430,7 +528,7 @@ void BookList::viewAllBooks(const int page, const int pageSize, char& choice, st
         cin.clear();
         cin >> choice;
     }
-    else if (option == "delete")
+    else if (option == "modify")
     {
         cout << "\n[D] Delete | [E] Edit | [Q] Quit: ";
         cin.clear();
@@ -451,118 +549,99 @@ void BookList::viewAllBooks(const int page, const int pageSize, char& choice, st
 }
 
 
-void BookList::LoadFromFile(const string& filename)
+// THESE ARE THE SUB FUNCTIONS FOR THE VIEW ALL BOOKS FUNCTION
+
+
+void BookList::findMaxLengthString(int& max_id_len, int& max_title_len, int& max_author_len, int& max_category_len, int& max_publisher_len, int& max_yearPub_len, int& max_totalCopy_len, int& max_availCopy_len, int& max_borrowCopy_len, int start, int end)
 {
-    Books.clear();
 
-    ifstream file(filename);
-    if (!file.is_open())
-    {
-        cout << "\n" << "No Active Book file found" << filename << endl;
-        return;
-    }
-
-    cout << "/n" << "Loading book library from " << filename << "..." << endl;
-
-    string line;
-
-    int loadedCount = 0;
-    int errorCount = 0;
-
-    getline(file, line);
-
-    while (getline(file, line))
-    {
-        if (line.empty()) continue;
-
-        istringstream iss(line);
-        string bookID, bookTitle, author, ISBN, category, publisher, yearPublished, status, totalCopiesStr, availCopiesStr, borrowedCopiesStr;
-
-        if (!(getline(iss, bookID, ',') &&
-            getline(iss, bookTitle, ',') &&
-            getline(iss, author, ',') &&
-            getline(iss, ISBN, ',') &&
-            getline(iss, category, ',') &&
-            getline(iss, publisher, ',') &&
-            getline(iss, yearPublished, ',') &&
-            getline(iss, status, ',') &&
-            getline(iss, totalCopiesStr, ',') &&
-            getline(iss, availCopiesStr, ',') &&
-            getline(iss, borrowedCopiesStr, ',')))
-
-        {
-            cout << "[WARNING]: Invalid CSV format in line: " << line << endl;
-            errorCount++;
-            continue;
-        }
-
-        try
-        {
-            int totalCopies = stoi(totalCopiesStr);
-            int availCopies = stoi(availCopiesStr);
-            int borrowedCopies = stoi(borrowedCopiesStr);
+    // ID Length Finder
+    auto it = max_element(Books.begin() + start, Books.begin() + end,
+        [](const Book& a, const Book& b) {
+            return a.bookID.size() < b.bookID.size();
+        });
+    max_id_len = it->bookID.size();
 
 
-            Book newBook(bookID, bookTitle, author, ISBN, category, publisher, yearPublished, status, totalCopies, availCopies, borrowedCopies);
+    // Title Length Finder
 
-            Books.push_back(newBook);
-
-            loadedCount++;
-        }
-        catch (const std::exception& e)
-        {
-            cout << "\n" << "[WARNING]: Invalid data in line: " << line << endl;
-
-            errorCount++;
-        }
-
-    }
+    it = max_element(Books.begin() + start, Books.begin() + end,
+        [](const Book& a, const Book& b) {
+            return a.bookTitle.size() < b.bookTitle.size();
+        });
+    max_title_len = it->bookTitle.size();
 
 
-    file.close();
+    // Author Length Finder
 
-    updateNextID();
+    it = max_element(Books.begin() + start, Books.begin() + end,
+        [](const Book& a, const Book& b) {
+            return a.author.size() < b.author.size();
+        });
+    max_author_len = it->author.size();
 
-    cout << "\n" << "Loaded: " << loadedCount << " active Books." << endl;
 
-    if (errorCount > 0)
-    {
-        cout << "\n" << "Errors: " << errorCount << " lines skipped." << endl;
-    }
+    // Category Length Finder
+
+    it = max_element(Books.begin() + start, Books.begin() + end,
+        [](const Book& a, const Book& b) {
+            return a.category.size() < b.category.size();
+        });
+    max_category_len = it->category.size();
+
+
+    // Publisher Length Finder
+
+    it = max_element(Books.begin() + start, Books.begin() + end,
+        [](const Book& a, const Book& b) {
+            return a.publisher.size() < b.publisher.size();
+        });
+    max_publisher_len = it->publisher.size();
+
+
+    // Year Published Length Finder
+
+    it = max_element(Books.begin() + start, Books.begin() + end,
+        [](const Book& a, const Book& b) {
+            return a.yearPublished.size() < b.yearPublished.size();
+        });
+    max_yearPub_len = it->yearPublished.size();
+
+
+    // Total Copies Length Finder
+
+    it = max_element(Books.begin() + start, Books.begin() + end,
+        [](const Book& a, const Book& b) {
+            return a.totalCopies < b.totalCopies;
+        });
+    max_totalCopy_len = to_string(it->totalCopies).size();
+
+
+    // Available Copies Length Finder
+
+    it = max_element(Books.begin() + start, Books.begin() + end,
+        [](const Book& a, const Book& b) {
+            return a.availCopies < b.availCopies;
+        });
+    max_availCopy_len = to_string(it->availCopies).size();
+
+
+    // Borrowed Copies Length Finder
+
+    it = max_element(Books.begin() + start, Books.begin() + end,
+        [](const Book& a, const Book& b) {
+            return a.borrowedCopies < b.borrowedCopies;
+        });
+    max_borrowCopy_len = to_string(it->borrowedCopies).size();
 
 }
 
+/* ---------------------------------
+    DELETE FUNCTIONS SECTION
+ ---------------------------------*/
 
 
 
-void BookList::saveToFile(const string& filename)
+void BookList::deleteThisBook()
 {
-    ofstream file(filename);
-    if (!(file.is_open()))
-    {
-        cout << "\n" << "Failed to open file: " << filename << endl;
-        return;
-    }
-
-    file << "bookID, bookTitle, author, ISBN, category, publisher, yearPublished, status, totalCopies, availCopies, borrowedCopies\n";
-
-    for (auto& book : Books)
-    {
-        file << book.bookID << ","
-            << book.bookTitle << ","
-            << book.author << ","
-            << book.ISBN << ","
-            << book.category << ","
-            << book.publisher << ","
-            << book.yearPublished << ","
-            << book.status << ","
-            << book.totalCopies << ","
-            << book.availCopies << ","
-            << book.borrowedCopies << "\n";
-    }
-
-    file.close();
-
-    cout << "Data saved: " << Books.size() << " Active Books." << endl;
-
 }

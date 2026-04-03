@@ -41,7 +41,12 @@ public:
     void saveToFile(const std::string& filename);
 
     // Display Books Function
+    bool printBook(std::string userInput);
     void viewAllBooks(const int page, const int pageSize, char& choice, std::string option);
+
+    void findMaxLengthString(int& max_id_len, int& max_title_len, int& max_author_len, int& max_category_len, int& max_publisher_len, int& max_yearPub_len, int& max_totalCopy_len, int& max_availCopy_len, int& max_borrowCopy_len, int start, int end);
+
+    void deleteThisBook();
 
 
 };
