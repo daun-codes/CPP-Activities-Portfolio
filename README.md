@@ -22,19 +22,15 @@ Below are the project and activity folders that I have created so far. Click on 
 - [Activity 7 : Menu-Driven-Program (Student Management System)](./Activity-7-Menu-Driven-Program/README.md)
 - [Activity 8 : Menu-Driven-Program (Library Management System)](./Activity-8-Library-Management-System/README.md)
 
-## Overall Progress
-
-C++: C++: 🟩⬜⬜⬜⬜ 20%
 
 ## Latest Updates
 
-- **March 12, 2016**: - Finished adding save function and load function to the [Activity 8 : Menu-Driven-Program (Library Management System)](./Activity-8-Library-Management-System/README.md)
+
+- **October 16, 2026**: - Updated the README.md
+- **March 12, 2026**: - Finished adding save function and load function to the [Activity 8 : Menu-Driven-Program (Library Management System)](./Activity-8-Library-Management-System/README.md)
 - **Feb 24, 2026**: Added README file for this Repository for better organization and visibility.
 - **Feb 24, 2026**: Added [Activity 8 : Menu-Driven-Program (Library Management System)](./Activity-8-Library-Management-System/README.md)
 
-## Goals for This Week
-
-- Finish Improving the display function of the [Activity 7 : Menu-Driven-Program (Student Management System)](./Activity-7-Menu-Driven-Program/README.md).
 
 ## Connect with Me
 
