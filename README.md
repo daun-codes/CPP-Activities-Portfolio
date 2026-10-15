@@ -35,6 +35,6 @@ Below are the project and activity folders that I have created so far. Click on 
 ## Connect with Me
 
 - [GitHub](https://github.com/daun-codes)
-- [LinkedIn](https://www.linkedin.com/in/donjervickamodia/)
+- [LinkedIn](https://www.linkedin.com/in/don-jervick-amodia/)
 
 * Last updated: **Feb 24, 2026**
